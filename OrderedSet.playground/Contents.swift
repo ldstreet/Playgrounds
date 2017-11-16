@@ -24,8 +24,10 @@ public struct OrderedSet<T: Hashable>: IteratorProtocol, Sequence, ExpressibleBy
         return internalArray.count
     }
     
+    //MARK: - Initializers
     public init() { }
     
+    // O(n)
     public init(arrayLiteral elements: Element...) {
         internalArray = Array(elements)
         for elem in elements.enumerated() {
@@ -33,11 +35,15 @@ public struct OrderedSet<T: Hashable>: IteratorProtocol, Sequence, ExpressibleBy
         }
     }
     
+    //MARK: - Funcs
+    
+    // O(1)
     public mutating func append(_ element: Element) {
         internalArray.append(element)
         hashToIndexMap[element.hashValue] = internalArray.count - 1
     }
     
+    // O(1)
     public mutating func remove(_ element: Element) {
         guard let index = hashToIndexMap[element.hashValue] else {
             print("OrderedSet does not contain element \(element))")
@@ -47,6 +53,7 @@ public struct OrderedSet<T: Hashable>: IteratorProtocol, Sequence, ExpressibleBy
         hashToIndexMap.removeValue(forKey: element.hashValue)
     }
     
+    // O(1)
     public func contains(_ element: Element) -> Bool {
         return hashToIndexMap[element.hashValue] != nil
     }
